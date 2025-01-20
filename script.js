@@ -9,8 +9,8 @@ let practiceWords = [
     ["说话", "事晴", "生日", "方便", "公园", "自油", "护照", "下雨", "里想", "浪漫"]
 ];
 let practiceCorrectAnswers = [
-    [0, 0, 1, 0, 1, 0, 0, 0, 0, 1],
-    [0, 1, 0, 0, 0, 1, 0, 0, 1, 0]
+    ["0", "0", "1", "0", "1", "0", "0", "0", "0", "1"],
+    ["0", "1", "0", "0", "0", "1", "0", "0", "1", "0"]
 ];
 
 let testWords =  [
@@ -45,6 +45,11 @@ let testCorrectAnswers = [
 let totalTime = 40;  // 倒计时总时长
 
 document.addEventListener("DOMContentLoaded", function() {
+    userFileName = prompt("请输入保存CSV文件的名称（不需要扩展名）", "results");
+if (!userFileName) {  // 如果用户没有输入文件名，使用默认值
+    userFileName = "results";
+}
+
     // 页面加载完成后显示图片（指导语），并准备好表格
     displayImage("image.png");  // 显示指导语的图片（你可以替换为实际的指导语）
     
@@ -174,7 +179,7 @@ function calculateResults() {
     for (let i = 0; i < currentAnswers.length; i++) {
         for (let j = 0; j < currentAnswers[i].length; j++) {
             let isSelected = selectedCells.includes(`${i},${j}`);
-            let isCorrect = currentAnswers[i][j] === 1;
+            let isCorrect = currentAnswers[i][j] === "1";  // 使用字符串比较
 
             // 判断正确与否
             let result = {
@@ -227,6 +232,6 @@ function exportCSV(detailedResults, correctCount, incorrectCount) {
     let encodedUri = encodeURI(csvContent);
     let link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "results.csv");
+    link.setAttribute("download", `${userFileName}.csv`);  // 使用用户输入的文件名保存
     link.click();
 }
